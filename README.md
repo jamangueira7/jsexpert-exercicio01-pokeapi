@@ -22,6 +22,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 API que consome a API do Pokemon.
 
 Testes:
+![img.png](.github%2Fimg.png)
+
 
 ## 🚀 Como Rodar
 
