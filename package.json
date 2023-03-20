@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "npx mocha --diff --exit ./test/**/*.test.js",
-    "test:cov": "npx nyc mocha ./test/**/*.test.js"
+    "test": "npx mocha --diff  --exit ./test/**/*.test.js",
+    "test:cov": "npx nyc mocha --diff --trace-deprecation --exit ./test/**/*.test.js"
   },
   "keywords": [
     "Tests",

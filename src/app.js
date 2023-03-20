@@ -23,6 +23,14 @@ class App {
                 return response.end();
             },
 
+            '/team?name:get': async (request, response) => {
+
+                const { id } = request;
+                const pokemon = await this.pokemonService.getPokemon(id);
+                response.write(JSON.stringify( pokemon ));
+                return response.end();
+            },
+
             default: async (request, response) => {
                 response.write(JSON.stringify({ msg: 'Essa rota não existe, tente acessar a rota /team para retornar dados.' }));
                 return response.end();

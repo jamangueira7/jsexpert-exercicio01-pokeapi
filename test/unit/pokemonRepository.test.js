@@ -47,7 +47,7 @@ describe('PokemonRepository Suite Tests', () => {
         expect(result.moves.length).to.eql(3);
     });
 
-    it('should return all Pokemons by ID - Pokemon pidgeot', async () => {
+    it('should return all Pokemons by ID error', async () => {
         const result = await pokemonRepository.getPokemon('fdafds');
 
         const expected = mocks.pidgeotError;

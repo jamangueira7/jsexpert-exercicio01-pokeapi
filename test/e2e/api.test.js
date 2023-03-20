@@ -1,17 +1,21 @@
 const { describe, it, beforeEach, afterEach, before} = require('mocha');
 const request = require('supertest');
-const App = require('../../src/app');
 const sinon = require("sinon");
+const http = require("http");
+const assert = require('assert');
+const App = require('../../src/app');
 
 const mocks = {
     allPokemons: require("../mocks/allPokemons.json"),
-    team: require("../mocks/team.json")
+    team: require("../mocks/team.json"),
+    pokemon: require("../mocks/pidgeot.json")
 }
 
+const SERVER_TEST_PORT = 3001;
 
 describe('API Suite test', () => {
     let api = {};
-    let sandbox = {};
+    let sandbox = sinon.createSandbox();
 
     beforeEach(() => {
         sandbox = sinon.createSandbox();
@@ -21,58 +25,74 @@ describe('API Suite test', () => {
         sandbox.restore();
     });
 
-    describe('/', () => {
+    describe('/Routes', () => {
         before(() => {
             const instance = new App();
 
             api = {
                 instance,
-                server: instance.createServer(4000),
+                server: instance.createServer(SERVER_TEST_PORT),
             };
         });
 
-        it('request default route return status 200', async () => {
-            const response = await request(api.server)
-                .get('/')
-                .expect(200);
+        describe("/default", () => {
+            it('request default route return status 200', async () => {
+                await request(api.server)
+                    .get('/')
+                    .expect(200);
+            });
+
+            it('request default route return default text', async () => {
+
+                const expected = { msg: 'Essa rota não existe, tente acessar a rota /team para retornar dados.' }
+
+                await request(api.server)
+                    .get('/')
+                    .expect(expected).done;
+            });
+
+            it('request default route return content-type json', async () => {
+                await request(api.server)
+                    .get('/')
+                    .expect("Content-Type", /json/);
+            });
         });
 
-        it('request default route return default text', async () => {
+        describe("/team?name", () => {
+            it('request team route with name return pokemon', async () => {
 
-            const expected = { msg: 'Essa rota não existe, tente acessar a rota /team para retornar dados.' }
+                const expected = {
+                    pokemon: mocks.pokemon
+                };
 
-            const response = await request(api.server)
-                .get('/')
-                .expect(expected).done;
+                await request(api.server)
+                    .get('/team')
+                    .query({ name: "pidgeot" })
+                    .expect(expected.pokemon);
+
+            });
         });
 
-        it('request default route return content-type json', async () => {
-            const response = await request(api.server)
-                .get('/')
-                .expect("Content-Type", /json/);
-        });
+        describe("/team", () => {
+            it('request team route return team pokemon', async () => {
 
-        it('request team route return team pokemon', async () => {
+                const expected = {
+                    team: mocks.team
+                };
 
-            const expected = {
-                team: mocks.team
-            };
-
-            sandbox
-                .stub(api.instance.pokemonService, api.instance.pokemonService.getRandomPokemonName.name)
-                .returns('bulbasaur')
-                .onSecondCall()
-                .returns('charmander')
-                .onThirdCall()
-                .returns('squirtle');
+                sandbox
+                    .stub(api.instance.pokemonService, api.instance.pokemonService.getRandomPokemonName.name)
+                    .returns('bulbasaur')
+                    .onSecondCall()
+                    .returns('charmander')
+                    .onThirdCall()
+                    .returns('squirtle');
 
 
-            const response = await request(api.server)
-                .get('/team')
-                .expect(expected.team);
+                await request(api.server)
+                    .get('/team')
+                    .expect(expected.team);
+            });
         });
     });
 });
-
-/*{"team":[{"name":"squirtle","moves":["mega-punch","ice-punch","mega-kick"]},{"name":"wartortle","moves":["mega-punch","ice-punch","mega-kick"]},{"name":"rattata","moves":["cut","headbutt","tackle"]}]}
-*/

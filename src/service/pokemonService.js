@@ -8,6 +8,12 @@ class PokemonService {
     return pokemons[random_pokemon_index].name;
   }
 
+  async getPokemon(name) {
+    const pokemon = await this.repository.getPokemon(name);
+
+    return pokemon;
+  }
+
   async getTeam() {
     const pokemons = await this.repository.getAllPokemons();
 

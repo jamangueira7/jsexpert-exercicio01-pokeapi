@@ -13,7 +13,6 @@ class PokemonRepository {
   async getPokemon(pokemon) {
     try {
       const data = await this.api.get(`pokemon/${pokemon}`);
-
       const { name, moves } = data;
 
       return {
