@@ -4,7 +4,9 @@
   "description": "An API that gives you a random pokemon starter team",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "test": "npx mocha --diff --exit ./test/**/*.test.js",
+    "test:cov": "npx nyc mocha ./test/**/*.test.js"
   },
   "keywords": [
     "Tests",
@@ -17,10 +19,10 @@
     "e2e",
     "unit"
   ],
-  "author": "Thales Silva Morato (ThaSMorato)",
+  "author": "João Antônio Mangueira (jamangueira7)",
   "license": "MIT",
   "engines": {
-    "node": "^14.17.6"
+    "node": "^19.7.0"
   },
   "devDependencies": {
     "chai": "^4.3.7",
