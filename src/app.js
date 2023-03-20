@@ -40,8 +40,8 @@ class App {
 
     header(request, response) {
         let { url, method } = request;
-        if(method === 'GET' && !!url.split("=")) {
-            const aux = url.split("=");
+        const aux = url.split("=");
+        if(method === 'GET' && typeof aux[1] !== "undefined") {
             url = aux[0];
             request.id = aux[1];
         }

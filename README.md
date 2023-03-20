@@ -23,7 +23,8 @@ API que consome a API do Pokemon.
 
 Testes:
 ![img.png](.github%2Fimg.png)
-
+![img_1.png](.github%2Fimg_1.png)
+![img_2.png](.github%2Fimg_2.png)
 
 ## 🚀 Como Rodar
 

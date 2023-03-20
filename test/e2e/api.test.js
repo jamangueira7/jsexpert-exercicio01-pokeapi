@@ -1,8 +1,8 @@
 const { describe, it, beforeEach, afterEach, before} = require('mocha');
 const request = require('supertest');
+const { expect } = require("chai");
 const sinon = require("sinon");
 const http = require("http");
-const assert = require('assert');
 const App = require('../../src/app');
 
 const mocks = {
@@ -23,6 +23,36 @@ describe('API Suite test', () => {
 
     afterEach(() => {
         sandbox.restore();
+    });
+
+    describe("Connection", () => {
+        it("should start with server 3000", () => {
+            const api = new App();
+
+            sandbox.spy(api);
+            sandbox.stub(http, http.createServer.name).returns({
+                listen: (port, callback) => {}
+            });
+
+            api.createServer();
+
+            expect(api.createServer.getCall(0).args[0]).to.be.equal(undefined);
+        });
+
+        it("should start the server on createServer method", () => {
+            const api = new App();
+            const portTest = 6000;
+
+            sandbox.spy(api);
+            sandbox.stub(http, http.createServer.name).returns({
+                listen: (port, callback) => {}
+            });
+
+            api.createServer(portTest);
+
+            expect(http.createServer.callCount).to.be.equal(1);
+            expect(api.createServer.getCall(0).args[0]).to.be.equal(portTest);
+        });
     });
 
     describe('/Routes', () => {
