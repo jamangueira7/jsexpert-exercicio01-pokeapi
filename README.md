@@ -81,6 +81,21 @@ Retorna:
 }
 ```
 
+- **`GET /team?name=`**: Rota para pegar um Pokemon
+
+
+Retorna:
+```
+{
+  "name": "pidgeot",
+  "moves": [
+    "razor-wind",
+    "gust",
+    "wing-attack"
+  ]
+}
+```
+
 ## 📖 Story: Seu primeiro time pokemon
 
 A idéia é testar os fundamentos de `testing`, aplicando o que foi visto no
